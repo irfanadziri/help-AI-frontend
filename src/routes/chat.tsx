@@ -1,24 +1,26 @@
+import { Viewer, Worker } from "@react-pdf-viewer/core";
+import "@react-pdf-viewer/core/lib/styles/index.css";
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { API } from "aws-amplify";
 import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import LoadingGrid from "../../public/loading-grid.svg";
 import { Conversation } from "../common/types";
 import ChatMessages from "../components/ChatMessages";
-// import ChatSidebar from "../components/ChatSidebar";
 
 const Document: React.FC = () => {
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
+
   const params = useParams();
   const navigate = useNavigate();
 
   const [conversation, setConversation] = useState<Conversation | null>(null);
-  const [loading, setLoading] = useState<string>("idle");
   const [messageStatus, setMessageStatus] = useState<string>("idle");
   const conversationListStatus = useRef<"idle" | "loading">("idle"); // Use useRef instead of useState
   const [prompt, setPrompt] = useState("");
   const [isChatVisible, setIsChatVisible] = useState(false); // State for chat visibility
 
   const fetchData = async (conversationid = params.conversationid) => {
-    setLoading("loading");
     const conversation = await API.get(
       "serverless-pdf-chat",
       `/doc/${params.documentid}/${conversationid}`,
@@ -26,7 +28,6 @@ const Document: React.FC = () => {
     );
 
     setConversation(conversation);
-    setLoading("idle");
   };
 
   useEffect(() => {
@@ -97,27 +98,52 @@ const Document: React.FC = () => {
   };
 
   return (
-    <div className="relative">
-      {loading === "loading" && !conversation && (
-        <div className="flex flex-col items-center mt-6">
-          <img src={LoadingGrid} width={40} />
-        </div>
-      )}
-      <div>
-        <h1 className="font-bold text-lg mb-4">
-          Incididunt velit enim labore occaecat culpa proident elit laborum
-          irure in laborum labore non.
+    <div className="flex flex-col">
+      <div className="flex-1">
+        <h1 className="font-bold text-3xl mb-10 mt-8">
+          Manual Pengguna SISPAA
         </h1>
+        <h2 className="font-bold text-xl mb-2">Pengenalan</h2>
         <p>
-          Dolore eiusmod anim anim quis tempor elit et cillum amet deserunt
-          occaecat. Excepteur laboris sit anim velit cupidatat est esse occaecat
-          aliqua non et quis. Occaecat voluptate voluptate fugiat esse
-          exercitation irure. Consectetur do irure laborum qui ex deserunt
-          voluptate et minim aute qui est tempor qui consectetur. Lorem occaecat
-          ad consectetur esse elit minim consectetur dolor. Lorem aute non
-          excepteur sit consectetur quis culpa sit in. Ullamco sint culpa in.
-          Excepteur excepteur consequat quis officia commodo excepteur velit ut.
+          Manual pengguna ini adalah sumber utama anda untuk semua yang anda
+          perlu tahu tentang SISPAA. Sama ada anda pengguna baru atau ingin
+          meneroka ciri-ciri lanjutan, manual ini menyediakan segala panduan
+          untuk anda.
         </p>
+        <h2 className="font-bold text-xl mb-2 mt-4">
+          Gambaran Keseluruhan Manual
+        </h2>
+        <ul className="list-disc ml-4">
+          <li>Pengenalan: Pelajari cara mengisi borang SISPAA.</li>
+          <li>
+            Antara Muka Pengguna: Panduan terperinci tentang ciri-ciri dan
+            navigasi SISPAA.
+          </li>
+          <li>
+            Penyelesaian Masalah: Penyelesaian kepada masalah biasa dan Soalan
+            Lazim.
+          </li>
+        </ul>
+        <h2 className="font-bold text-xl mt-4 mb-2">
+          Kelebihan Menggunakan Manual
+        </h2>
+        <p>
+          Manual pengguna ini direka untuk menjadi komprehensif dan mudah
+          dinavigasi, memastikan anda mempunyai semua maklumat yang diperlukan
+          berkaitan SISPAA di hujung jari anda.
+        </p>
+      </div>
+      <div className="flex-1 mt-8">
+        <div className="h-[75vh]">
+          <Worker
+            workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}
+          >
+            <Viewer
+              fileUrl="/Manual-SISPAA.pdf"
+              plugins={[defaultLayoutPluginInstance]}
+            />
+          </Worker>
+        </div>
       </div>
       <div>
         <button
