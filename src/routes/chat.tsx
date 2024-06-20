@@ -1,5 +1,5 @@
 import { API } from "aws-amplify";
-import React, { KeyboardEvent, useEffect, useState } from "react";
+import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import LoadingGrid from "../../public/loading-grid.svg";
 import { Conversation } from "../common/types";
@@ -13,9 +13,7 @@ const Document: React.FC = () => {
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [loading, setLoading] = useState<string>("idle");
   const [messageStatus, setMessageStatus] = useState<string>("idle");
-  const [conversationListStatus, setConversationListStatus] = useState<
-    "idle" | "loading"
-  >("idle");
+  const conversationListStatus = useRef<"idle" | "loading">("idle"); // Use useRef instead of useState
   const [prompt, setPrompt] = useState("");
   const [isChatVisible, setIsChatVisible] = useState(false); // State for chat visibility
 
@@ -27,32 +25,7 @@ const Document: React.FC = () => {
       {}
     );
 
-    // conversation.messages = [
-    //   {
-    //     type: "ai",
-    //     data: {
-    //       type: "ai",
-    //       content: "Hello there! 👋🏻 How can I assist you today?",
-    //     },
-    //   },
-    //   {
-    //     type: "ai",
-    //     data: {
-    //       type: "ai",
-    //       content: "Ask me anything, I'm here to help with your questions! 😁",
-    //     },
-    //   },
-    //   {
-    //     type: "ai",
-    //     data: {
-    //       type: "ai",
-    //       content: "Tip: You may also ask in Bahasa.",
-    //     },
-    //   },
-    // ];
-
     setConversation(conversation);
-
     setLoading("idle");
   };
 
@@ -65,7 +38,7 @@ const Document: React.FC = () => {
   };
 
   const addConversation = async () => {
-    setConversationListStatus("loading");
+    conversationListStatus.current = "loading";
     const newConversation = await API.post(
       "serverless-pdf-chat",
       `/doc/${params.documentid}`,
@@ -73,14 +46,8 @@ const Document: React.FC = () => {
     );
     fetchData(newConversation.conversationid);
     navigate(`/doc/${params.documentid}/${newConversation.conversationid}`);
-    setConversationListStatus("idle");
+    conversationListStatus.current = "idle";
   };
-
-  // const switchConversation = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   const targetButton = e.target as HTMLButtonElement;
-  //   navigate(`/doc/${params.documentid}/${targetButton.id}`);
-  //   fetchData(targetButton.id);
-  // };
 
   const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key == "Enter") {
