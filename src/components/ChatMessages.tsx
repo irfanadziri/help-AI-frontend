@@ -34,7 +34,18 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
               key={i}
             >
               <div className="prose">
-                <p>{message.data.content}</p>
+                {message.type === "ai" ? (
+                  <p>{message.data.content}</p>
+                ) : (
+                  <p>
+                    {message.data.content
+                      .replace(/System: [^\n]*\n/g, "")
+                      .replace(/Human: /, "")
+                      .replace(/Tell me about /, "")
+                      .replace(/ based on embedding context/g, "")
+                      .trim()}
+                  </p>
+                )}
               </div>
             </div>
           ))}
