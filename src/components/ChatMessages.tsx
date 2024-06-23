@@ -41,8 +41,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
                     {message.data.content
                       .replace(/System: [^\n]*\n/g, "")
                       .replace(/Human: /, "")
-                      .replace(/Tell me about /, "")
-                      .replace(/ based on embedding context/g, "")
+                      .replace(/Please provide information on /, "")
                       .trim()}
                   </p>
                 )}
