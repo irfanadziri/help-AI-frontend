@@ -1,8 +1,8 @@
-import { Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { Auth } from "aws-amplify";
-import Navigation from "../components/Navigation";
+import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
+import Navigation from "../components/Navigation";
 
 const Layout: React.FC = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
@@ -20,12 +20,15 @@ const Layout: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div>
+      <div
+        className="bg-cover bg-center"
+        style={{ backgroundImage: "url('/bg.png')" }}
+      >
         <Navigation
           userInfo={userInfo}
           handleSignOutClick={handleSignOutClick}
         />
-        <div className="container mt-6 mb-6">
+        <div className="container mt-32 p-72">
           <Outlet />
         </div>
       </div>

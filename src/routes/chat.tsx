@@ -1,6 +1,5 @@
-import { Viewer, Worker } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
-import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+// import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { API } from "aws-amplify";
 import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
@@ -9,7 +8,7 @@ import { Conversation } from "../common/types";
 import ChatMessages from "../components/ChatMessages";
 
 const Document: React.FC = () => {
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  // const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   const params = useParams();
   const navigate = useNavigate();
@@ -99,7 +98,7 @@ const Document: React.FC = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex-1">
+      {/* <div className="flex-1">
         <h1 className="font-bold text-3xl mb-10 mt-8">
           Manual Pengguna SISPAA
         </h1>
@@ -144,7 +143,7 @@ const Document: React.FC = () => {
             />
           </Worker>
         </div>
-      </div>
+      </div> */}
       <div>
         <button
           onClick={toggleChatVisibility}
