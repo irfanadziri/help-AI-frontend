@@ -3,7 +3,6 @@ import {
   ArrowLeftOnRectangleIcon,
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
-import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 
 interface NavigationProps {
@@ -18,13 +17,14 @@ const Navigation: React.FC<NavigationProps> = ({
   handleSignOutClick,
 }: NavigationProps) => {
   return (
-    <nav className="bg-blue-900">
+    <nav className="bg-slate-900">
       <div className="container flex flex-wrap items-center justify-between py-3">
         <Link
           to="/"
           className="inline-flex items-center self-center text-2xl font-semibold whitespace-nowrap text-white"
         >
-          <ChatBubbleLeftRightIcon className="w-6 h-6 mr-1.5 text-orange-500" />
+          {/* <ChatBubbleLeftRightIcon className="w-6 h-6 mr-1.5 text-orange-500" /> */}
+          <img src="/helpai.png" alt="Logo" className="w-6 h-6 mr-1.5" />
           Help-AI
         </Link>
         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">

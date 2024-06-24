@@ -22,7 +22,7 @@ const Layout: React.FC = () => {
     <div className="flex flex-col min-h-screen">
       <div
         className="bg-cover bg-center"
-        style={{ backgroundImage: "url('/bg.png')" }}
+        style={{ backgroundImage: "url('/bg.jpeg')" }}
       >
         <Navigation
           userInfo={userInfo}
